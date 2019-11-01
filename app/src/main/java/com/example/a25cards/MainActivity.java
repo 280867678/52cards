@@ -1,6 +1,9 @@
 package com.example.a25cards;
 
-import androidx.appcompat.app.AppCompatActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+
+import android.content.pm.ActivityInfo;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -19,4 +22,5 @@ public class MainActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_main);
     }
+
 }

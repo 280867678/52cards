@@ -7,17 +7,22 @@ import android.os.Bundle;
 import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.os.Handler;
+import android.os.Message;
 import android.view.WindowManager;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 public class LoadActivity extends Activity {
 
     //time for picture display
-    private static final int LOAD_DISPLAY_TIME = 5000;
-
+    private ProgressBar progressBar;
+    private int p = 0;
+    private TextView progressBar_desc;
+    private MyHandler myHandler = new MyHandler();
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -27,13 +32,53 @@ public class LoadActivity extends Activity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.load);
 
-        new Handler().postDelayed(new Runnable() {
-            public void run() {
-                //Go to main activity, and finish load activity
-                Intent mainIntent = new Intent(LoadActivity.this, MainActivity.class);
-                LoadActivity.this.startActivity(mainIntent);
-                LoadActivity.this.finish();
+        progressBar = findViewById(R.id.progressBar);
+        progressBar_desc = findViewById(R.id.progressBar_desc);
+
+        if(p == 0){
+            new myThread().start();
+        }
+    }
+
+    public class MyHandler extends Handler{
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            int code=msg.what;//接受处理码
+            switch (code){
+                case 1:
+                    p++;
+                    progressBar.setProgress(p);//给进度条的当前进度赋值
+                    progressBar_desc.setText(p+"%");//显示当前进度为多少
+                    break;
+                case 2:
+                    Intent mainIntent = new Intent(LoadActivity.this, MainActivity.class);
+                    LoadActivity.this.startActivity(mainIntent);
+                    LoadActivity.this.finish();
+                    break;
             }
-        }, LOAD_DISPLAY_TIME);
+        }
+    }
+
+    public class myThread extends Thread{
+        @Override
+        public void run() {
+            super.run();
+            while(true){
+                try {
+                    Thread.sleep(50);//使线程休眠0.1秒
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Message msg = new Message();
+                msg.what = 1;
+                if(p == 100){
+                    msg.what = 2;
+                }
+                myHandler.sendMessage(msg);
+                if(p==100) break;
+            }
+        }
+
     }
 }
