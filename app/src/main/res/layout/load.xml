@@ -14,12 +14,17 @@
         android:layout_marginTop="400dp"
         android:max="100"
         android:progress="0"
+        android:backgroundTint="@android:color/darker_gray"
+        android:progressBackgroundTint="@android:color/darker_gray"
+        android:progressTint="@android:color/darker_gray"
+        android:progressTintMode="@android:color/darker_gray"
          />
     <TextView
         android:layout_width="80dp"
         android:id="@+id/progressBar_desc"
+        android:textColor="@android:color/black"
         android:text=" "
         android:layout_toEndOf="@+id/progressBar"
-        android:textSize="30dp"
+        android:textSize="20dp"
         android:layout_height="match_parent" />
 </LinearLayout>
