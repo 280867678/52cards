@@ -1,16 +1,20 @@
 package com.example.a25cards;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import android.content.pm.ActivityInfo;
 
 
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
-
+    private Button login;
+    private Button register;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,6 +24,26 @@ public class MainActivity extends AppCompatActivity {
         // 横屏
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_main);
+        login = (Button)findViewById(R.id.login);
+        register = (Button)findViewById(R.id.register);
+        register.setX(100);
+        register.setY(530);
+        login.setX(695);
+        login.setY(530);
+        register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+                startActivity(intent);
+            }
+        });
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 }

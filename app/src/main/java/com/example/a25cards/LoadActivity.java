@@ -50,7 +50,7 @@ public class LoadActivity extends Activity {
                     progressBar_desc.setText(p+"%");//显示当前进度为多少
                     break;
                 case 2:
-                    Intent mainIntent = new Intent(LoadActivity.this, LoginActivity.class);
+                    Intent mainIntent = new Intent(LoadActivity.this, MainActivity.class);
                     LoadActivity.this.startActivity(mainIntent);
                     LoadActivity.this.finish();
                     break;
@@ -64,7 +64,7 @@ public class LoadActivity extends Activity {
             super.run();
             while(true){
                 try {
-                    Thread.sleep(80);//使线程休眠0.1秒
+                    Thread.sleep(50);//使线程休眠0.1秒
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
