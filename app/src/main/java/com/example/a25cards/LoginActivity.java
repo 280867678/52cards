@@ -9,6 +9,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText et_username, et_password;
@@ -27,8 +28,21 @@ public class LoginActivity extends AppCompatActivity {
         et_password = findViewById(R.id.et_password);
         bt_login = findViewById(R.id.bt_login);
         bt_register = findViewById(R.id.bt_register);
-        username = et_username.getText().toString();
-        password = et_password.getText().toString();
+        bt_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                username = et_username.getText().toString();
+                password = et_password.getText().toString();
+                if(username.equals("123")&&password.equals("123")){
+                    Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
+                    startActivity(intent);
+                    LoginActivity.this.finish();
+                }
+                else{
+                    Toast.makeText(LoginActivity.this,"账号或密码错误，请重新输入",Toast.LENGTH_LONG).show();
+                }
+            }
+        });
         bt_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
