@@ -2,27 +2,25 @@ package com.example.a25cards;
 
 import android.app.Activity;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.content.Intent;
-import android.graphics.PixelFormat;
 import android.os.Handler;
 import android.os.Message;
 import android.view.WindowManager;
 import android.content.pm.ActivityInfo;
-import android.os.Bundle;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class LoadActivity extends Activity {
 
-    //time for picture display
+    //进度条
     private ProgressBar progressBar;
+    //进度值
     private int p = 0;
+    //进度条进度描述
     private TextView progressBar_desc;
     private MyHandler myHandler = new MyHandler();
+
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,7 +50,7 @@ public class LoadActivity extends Activity {
                     progressBar_desc.setText(p+"%");//显示当前进度为多少
                     break;
                 case 2:
-                    Intent mainIntent = new Intent(LoadActivity.this, MainActivity.class);
+                    Intent mainIntent = new Intent(LoadActivity.this, LoginActivity.class);
                     LoadActivity.this.startActivity(mainIntent);
                     LoadActivity.this.finish();
                     break;
