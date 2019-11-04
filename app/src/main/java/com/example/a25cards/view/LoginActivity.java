@@ -1,4 +1,4 @@
-package com.example.a25cards;
+package com.example.a25cards.view;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -10,6 +10,8 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.example.a25cards.R;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText et_username, et_password;

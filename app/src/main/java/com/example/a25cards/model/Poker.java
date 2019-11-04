@@ -1,12 +1,21 @@
-package com.example.a25cards;
+package com.example.a25cards.model;
+
 
 import android.content.Context;
 import android.view.View;
 
-public class pocker extends View {
+import java.util.HashMap;
+import java.util.List;
+
+public class Poker extends View {
 
     private int point;
     private String kind;
+    public static int SMALL_JOKER = 100;
+    public static int LARGE_JOKER = 200;
+
+
+
 
     public int getPoint() {
         return point;
@@ -27,7 +36,7 @@ public class pocker extends View {
 
 
 
-    public pocker(Context context) {
+    public Poker(Context context) {
         super(context);
     }
 

@@ -1,4 +1,4 @@
-package com.example.a25cards;
+package com.example.a25cards.view;
 
 import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +7,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.example.a25cards.R;
 
 public class RegisterActivity extends AppCompatActivity {
     private EditText et_username, et_password,et_kickname;

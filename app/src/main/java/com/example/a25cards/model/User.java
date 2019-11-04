@@ -1,6 +1,6 @@
-package com.example.a25cards;
+package com.example.a25cards.model;
 
-public class user {
+public class User {
     private String nike;
     private String username;
     private String pwd;
