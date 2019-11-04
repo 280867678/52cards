@@ -9,11 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".RegisterActivity"></activity>
-        <activity android:name=".LoginActivity"></activity>
-        <activity android:name=".MenuActivity"></activity>
+        <activity android:name=".view.RegisterActivity"></activity>
+        <activity android:name=".view.LoginActivity"></activity>
+        <activity android:name=".view.MenuActivity"></activity>
         <activity
-            android:name=".LoadActivity"
+            android:name=".view.LoadActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="landscape">
             <intent-filter>
@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".view.MainActivity"
             android:screenOrientation="landscape" />
     </application>
 
