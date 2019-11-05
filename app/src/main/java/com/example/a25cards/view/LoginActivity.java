@@ -35,14 +35,17 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 username = et_username.getText().toString();
                 password = et_password.getText().toString();
-                if(username.equals("123")&&password.equals("123")){
+                Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
+                startActivity(intent);
+                LoginActivity.this.finish();
+               /* if(username.equals("123")&&password.equals("123")){
                     Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
                     startActivity(intent);
                     LoginActivity.this.finish();
                 }
                 else{
                     Toast.makeText(LoginActivity.this,"账号或密码错误，请重新输入",Toast.LENGTH_LONG).show();
-                }
+                }*/
             }
         });
         bt_register.setOnClickListener(new View.OnClickListener() {

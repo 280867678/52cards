@@ -17,6 +17,11 @@ import com.example.a25cards.R;
 public class MenuActivity extends AppCompatActivity {
 
     private Button out;
+    private Button classical;
+    private Button competition;
+    private Button rank;
+    private Button ending;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,5 +40,22 @@ public class MenuActivity extends AppCompatActivity {
                 MenuActivity.this.finish();
             }
         });
+        classical = (Button)findViewById(R.id.classical);
+        competition = (Button)findViewById(R.id.competition);
+        rank = (Button)findViewById(R.id.rank);
+        ending = (Button)findViewById(R.id.ending);
+
+        classical.setX(300);
+        classical.setY(50);
+
+        competition.setX(350);
+        competition.setY(50);
+
+        rank.setX(300);
+        rank.setY(100);
+
+        ending.setX(350);
+        ending.setY(100);
+
     }
 }
