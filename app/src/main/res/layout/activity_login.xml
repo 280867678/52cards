@@ -8,11 +8,11 @@
 
     <CheckBox android:id="@+id/cb_rem" android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="记住密码" android:layout_alignParentLeft="true" android:layout_centerVertical="true"/>
 
-    <LinearLayout android:layout_height="wrap_content" android:layout_width="wrap_content">
+    <LinearLayout android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_gravity="center">
 
         <Button android:id="@+id/bt_login" android:paddingRight="50dp" android:paddingLeft="50dp" android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="登录" android:layout_centerVertical="true" android:layout_toLeftOf="@+id/bt_register"/>
 
-        <Button android:id="@+id/bt_register" android:paddingRight="50dp" android:paddingLeft="50dp" android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="没有账号，注册" android:layout_centerVertical="true"  android:layout_alignParentRight="true"/>
+        <Button android:id="@+id/bt_register" android:paddingRight="50dp" android:paddingLeft="50dp" android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="注册" android:layout_centerVertical="true"  android:layout_alignParentRight="true"/>
     </LinearLayout>
 
 </LinearLayout>
