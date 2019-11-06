@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,17 +9,18 @@
 
     <Button
         android:id="@+id/login"
-        android:text="登录"
-        android:textSize="25dp"
         android:layout_width="165dp"
         android:layout_height="65dp"
         android:background="@drawable/button_circle_shape_blue"
-        />
+        android:text="登 录"
+        android:textSize="25dp" />
+
     <Button
         android:id="@+id/register"
-        android:text="注册"
-        android:textSize="25dp"
         android:layout_width="165dp"
         android:layout_height="65dp"
-        android:background="@drawable/button_circle_shape_green"/>
-</LinearLayout>
+        android:layout_toRightOf="@+id/login"
+        android:background="@drawable/button_circle_shape_green"
+        android:text="注 册"
+        android:textSize="25dp" />
+</RelativeLayout>
