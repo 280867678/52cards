@@ -12,7 +12,7 @@
         android:layout_width="165dp"
         android:layout_height="65dp"
         android:background="@drawable/button_circle_shape_blue"
-        android:text="登录"
+        android:text="登 录"
         android:textSize="25dp" />
 
     <Button
@@ -21,6 +21,6 @@
         android:layout_height="65dp"
         android:layout_toRightOf="@+id/login"
         android:background="@drawable/button_circle_shape_green"
-        android:text="注册"
+        android:text="注 册"
         android:textSize="25dp" />
 </RelativeLayout>
