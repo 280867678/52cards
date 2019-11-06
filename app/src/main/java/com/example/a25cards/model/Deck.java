@@ -1,28 +1,52 @@
 package com.example.a25cards.model;
 
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class Deck {
 
-    Map<Integer, Integer> cardsMap = new TreeMap<>();
+    List<Poker> pokersHand = new LinkedList<>();        // 手上的牌
+    List<Poker> pokersSelected = new LinkedList<>();    // 要出的牌
+    Map<Integer, Integer> cardsMap = new TreeMap<>();   // 要出的牌的统计
     private int sumCards;
     private int type;
     private int weight;
 
     public static final int NO = 0;
-    public static final int SINGLE = 1; // 单张
-    public static final int PAIR = 2;   // 对子
-    public static final int TRIPLET = 3;    // 三张
+    public static final int SINGLE = 1;         // 单张
+    public static final int PAIR = 2;           // 对子
+    public static final int TRIPLET = 3;        // 三张
     public static final int TRIPLET_PAIR = 4;   // 三带对
-    public static final int PAIRS = 10; // 连对
-    public static final int TRIPLETS = 40;  // 飞机
+    public static final int PAIRS = 10;         // 连对
+    public static final int TRIPLETS = 40;      // 飞机
     public static final int TRIPLETS_PAIR = 70; // 飞机带对
-    public static final int STRAIGHT = 100;  //顺子
-    public static final int BOMB = 130;  // 炸弹
-    public static final int ROCKET = 150;    //王炸
-    public static final int SUPER_ROCKET = 200; //开天王炸
+    public static final int STRAIGHT = 100;     // 顺子
+    public static final int BOMB = 130;         // 炸弹
+    public static final int ROCKET = 150;       // 王炸
+    public static final int SUPER_ROCKET = 200; // 开天王炸
+
+    public List<Poker> getPokersHand() {
+        return pokersHand;
+    }
+
+    public void setPokersHand(List<Poker> pokersHand) {
+        this.pokersHand = pokersHand;
+    }
+
+    public List<Poker> getPokersSelected() {
+        return pokersSelected;
+    }
+
+    public void setPokersSelected(List<Poker> pokersSelected) {
+        this.pokersSelected = pokersSelected;
+    }
+
+    public void clearCardsMap() {
+        this.cardsMap.clear();
+    }
 
     public Map<Integer, Integer> getCardsMap() {
         return cardsMap;
@@ -62,7 +86,7 @@ public class Deck {
         this.type = NO;
 
         int difNum = cardsMap.size();   // 不同点数牌的数量
-        int sumNum = getSumCards();
+        int sumNum = getSumCards();     // 总牌数
 
         //开天王炸
         if ( sumNum==4 && difNum==2 ) {

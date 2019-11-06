@@ -9,9 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.RegisterActivity"></activity>
-        <activity android:name=".view.LoginActivity"></activity>
-        <activity android:name=".view.MenuActivity"></activity>
+        <activity android:name=".view.GameActivity"></activity>
+        <activity android:name=".view.RegisterActivity" />
+        <activity android:name=".view.LoginActivity" />
+        <activity android:name=".view.MenuActivity" />
         <activity
             android:name=".view.LoadActivity"
             android:configChanges="orientation|keyboardHidden"
