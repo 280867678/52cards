@@ -64,7 +64,7 @@ public class LoginActivity extends AppCompatActivity {
                         editor.putString("password",password);
                         editor.commit();
                     }
-                    Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, GameActivity.class);
                     startActivity(intent);
                     LoginActivity.this.finish();
                 }
