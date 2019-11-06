@@ -17,11 +17,11 @@
         android:id="@+id/classical"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:text="经典" />
+        android:text="经 典" />
 
     <Button
         android:id="@+id/competition"
-        android:text="比赛"
+        android:text="比 赛"
         android:layout_width="200dp"
         android:layout_height="200dp"/>
 
@@ -29,11 +29,11 @@
         android:id="@+id/rank"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:text="排位" />
+        android:text="排 位" />
 
     <Button
         android:id="@+id/ending"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:text="残局" />
+        android:text="残 局" />
 </RelativeLayout>

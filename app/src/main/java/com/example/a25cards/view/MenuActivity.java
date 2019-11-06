@@ -43,6 +43,7 @@ public class MenuActivity extends AppCompatActivity {
         classical = (Button)findViewById(R.id.classical);
         competition = (Button)findViewById(R.id.competition);
         rank = (Button)findViewById(R.id.rank);
+
         ending = (Button)findViewById(R.id.ending);
 
         classical.setX(300);
