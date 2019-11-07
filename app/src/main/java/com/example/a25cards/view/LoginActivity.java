@@ -27,9 +27,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         // 全屏、隐藏状态栏
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        // 横屏
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_login);
         //获取控件id
         et_username = findViewById(R.id.et_username);
@@ -49,6 +46,8 @@ public class LoginActivity extends AppCompatActivity {
         }else{
             et_username.setText(username);
             et_password.setText(password);
+            boolean b =true ;
+            cb_rem.setChecked(b);
         }
 
         //login function
@@ -64,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
                         editor.putString("password",password);
                         editor.commit();
                     }
-                    Intent intent = new Intent(LoginActivity.this, GameActivity.class);
+                    Intent intent = new Intent(LoginActivity.this,MenuActivity.class);
                     startActivity(intent);
                     LoginActivity.this.finish();
                 }

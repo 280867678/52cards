@@ -66,7 +66,7 @@ public class LoadActivity extends Activity {
             super.run();
             while(true){
                 try {
-                    Thread.sleep(20);//使线程休眠0.1秒
+                    Thread.sleep(50);//使线程休眠0.1秒
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
