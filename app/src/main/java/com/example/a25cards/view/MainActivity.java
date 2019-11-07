@@ -28,10 +28,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         login = (Button)findViewById(R.id.login);
         register = (Button)findViewById(R.id.register);
-        register.setX(100);
-        register.setY(530);
-        login.setX(695);
-        login.setY(530);
+        register.setX(125);
+        register.setY(775);
+        login.setX(1020);
+        login.setY(775);
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

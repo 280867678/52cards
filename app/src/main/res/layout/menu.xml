@@ -15,25 +15,33 @@
 
     <Button
         android:id="@+id/classical"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="160dp"
+        android:layout_height="120dp"
+        android:textSize="30dp"
+        android:background="@drawable/button_circle_shape_green"
         android:text="经 典" />
 
     <Button
         android:id="@+id/competition"
         android:text="比 赛"
-        android:layout_width="200dp"
-        android:layout_height="200dp"/>
+        android:background="@drawable/button_circle_shape_grey"
+        android:textSize="30dp"
+        android:layout_width="160dp"
+        android:layout_height="120dp"/>
 
     <Button
         android:id="@+id/rank"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="160dp"
+        android:layout_height="120dp"
+        android:textSize="30dp"
+        android:background="@drawable/button_circle_shape_grey"
         android:text="排 位" />
 
     <Button
         android:id="@+id/ending"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="160dp"
+        android:layout_height="120dp"
+        android:textSize="30dp"
+        android:background="@drawable/button_circle_shape_grey"
         android:text="残 局" />
 </RelativeLayout>

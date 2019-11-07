@@ -46,17 +46,17 @@ public class MenuActivity extends AppCompatActivity {
 
         ending = (Button)findViewById(R.id.ending);
 
-        classical.setX(300);
-        classical.setY(50);
+        classical.setX(1000);
+        classical.setY(170);
 
-        competition.setX(350);
-        competition.setY(50);
+        competition.setX(1430);
+        competition.setY(170);
 
-        rank.setX(300);
-        rank.setY(100);
+        rank.setX(1000);
+        rank.setY(480);
 
-        ending.setX(350);
-        ending.setY(100);
+        ending.setX(1430);
+        ending.setY(480);
 
     }
 }
