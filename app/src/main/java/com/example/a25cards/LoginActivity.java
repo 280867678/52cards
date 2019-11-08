@@ -1,21 +1,16 @@
-package com.example.a25cards.view;
+package com.example.a25cards;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import com.example.a25cards.view.GameActivity;
-import com.example.a25cards.R;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText et_username, et_password;
@@ -28,9 +23,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         // 全屏、隐藏状态栏
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        // 横屏
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_login);
         //获取控件id
         et_username = findViewById(R.id.et_username);
@@ -44,12 +36,20 @@ public class LoginActivity extends AppCompatActivity {
         editor = sharedPreferences.edit();
         username = sharedPreferences.getString("username","");
         password = sharedPreferences.getString("username","");
-        if(username==null && password==null){
+        Intent it = getIntent();
+        Bundle bundle = it.getExtras();
+        if(username==null && password==null && bundle==null){
             et_username.setText("");
             et_password.setText("");
-        }else{
+        }else if(bundle!=null){
+            String userName = bundle.getString("userName");
+            et_username.setText(userName);
+            et_password.setText("");
+        }
+        else if(username!=null && password!=null && bundle==null){
             et_username.setText(username);
             et_password.setText(password);
+            cb_rem.setChecked(true);
         }
 
         //login function
@@ -65,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
                         editor.putString("password",password);
                         editor.commit();
                     }
-                    Intent intent = new Intent(LoginActivity.this, GameActivity.class);
+                    Intent intent = new Intent(LoginActivity.this,MenuActivity.class);
                     startActivity(intent);
                     LoginActivity.this.finish();
                 }

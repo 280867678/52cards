@@ -1,5 +1,7 @@
 package com.example.a25cards.util;
 
+import android.util.Log;
+
 import com.example.a25cards.model.Deck;
 import com.example.a25cards.model.Poker;
 
@@ -34,7 +36,7 @@ public class Rule {
         if ( sumNum==4 && difNum==2 ) {
             int flag = 0;
             for (int points: cardsMap.keySet()) {
-                if (points== Poker.LARGE_JOKER || points== Poker.SMALL_JOKER) {
+                if (points== Poker.LARGE_JOKER || points==Poker.SMALL_JOKER) {
                     flag ++;
                 } else {
                     break;
@@ -55,7 +57,7 @@ public class Rule {
             if (sumNum==1) { // 单牌
                 deck.setType(SINGLE);
             } else if (sumNum==2) { // 对子 王炸
-                if ( points== Poker.SMALL_JOKER || points== Poker.LARGE_JOKER ) {
+                if ( points==Poker.SMALL_JOKER || points==Poker.LARGE_JOKER ) {
                     deck.setType(ROCKET);
                 } else {
                     deck.setType(PAIR);

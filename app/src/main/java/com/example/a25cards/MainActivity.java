@@ -1,4 +1,4 @@
-package com.example.a25cards.view;
+package com.example.a25cards;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -11,8 +11,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-
-import com.example.a25cards.R;
 
 public class MainActivity extends AppCompatActivity {
     private Button login;
@@ -28,10 +26,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         login = (Button)findViewById(R.id.login);
         register = (Button)findViewById(R.id.register);
-        register.setX(100);
-        register.setY(530);
-        login.setX(695);
-        login.setY(530);
+        register.setX(125);
+        register.setY(775);
+        login.setX(1020);
+        login.setY(775);
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

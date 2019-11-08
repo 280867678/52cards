@@ -1,4 +1,4 @@
-package com.example.a25cards.view;
+package com.example.a25cards;
 
 import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;

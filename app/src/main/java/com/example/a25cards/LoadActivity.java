@@ -1,4 +1,4 @@
-package com.example.a25cards.view;
+package com.example.a25cards;
 
 import android.app.Activity;
 
@@ -10,8 +10,6 @@ import android.view.WindowManager;
 import android.content.pm.ActivityInfo;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import com.example.a25cards.R;
 
 public class LoadActivity extends Activity {
 
@@ -45,14 +43,13 @@ public class LoadActivity extends Activity {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             int code=msg.what;//接受处理码
-            System.out.println(code);
             switch (code){
                 case 1:
                     p++;
-                    if(p>=100) {
-                        p=100;
-                    }
                     progressBar.setProgress(p);//给进度条的当前进度赋值
+                    if(p>=100){
+                        p =100;
+                    }
                     progressBar_desc.setText(p+"%");//显示当前进度为多少
                     break;
                 case 2:
@@ -70,13 +67,13 @@ public class LoadActivity extends Activity {
             super.run();
             while(p<=100){
                 try {
-                    Thread.sleep(60);//使线程休眠0.1秒
+                    Thread.sleep(50);//使线程休眠0.1秒
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
                 Message msg = new Message();
                 msg.what = 1;
-                if(p >= 100){
+                if(p == 100){
                     msg.what = 2;
                 }
                 myHandler.sendMessage(msg);
