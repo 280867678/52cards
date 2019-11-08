@@ -1,4 +1,4 @@
-package com.example.a25cards.view;
+package com.example.a25cards;
 
 import android.app.Activity;
 
@@ -10,8 +10,6 @@ import android.view.WindowManager;
 import android.content.pm.ActivityInfo;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import com.example.a25cards.R;
 
 public class LoadActivity extends Activity {
 

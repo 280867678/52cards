@@ -1,4 +1,4 @@
-package com.example.a25cards.view;
+package com.example.a25cards;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -11,8 +11,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-
-import com.example.a25cards.R;
 
 public class MainActivity extends AppCompatActivity {
     private Button login;
