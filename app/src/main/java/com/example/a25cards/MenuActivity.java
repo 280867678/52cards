@@ -14,6 +14,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+
 public class MenuActivity extends AppCompatActivity {
 
     private Button out;
@@ -55,7 +56,7 @@ public class MenuActivity extends AppCompatActivity {
         classical.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MenuActivity.this,GameActivity.class);
+                Intent intent = new Intent(MenuActivity.this, GameActivity.class);
                 startActivity(intent);
             }
         });

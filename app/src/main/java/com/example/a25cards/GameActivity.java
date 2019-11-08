@@ -6,11 +6,11 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.example.a25cards.R;
 import com.example.a25cards.model.Deck;
 import com.example.a25cards.model.Poker;
 import com.example.a25cards.model.User;
 import com.example.a25cards.view.GameView;
-
 
 public class GameActivity extends AppCompatActivity {
 
@@ -18,24 +18,24 @@ public class GameActivity extends AppCompatActivity {
     private User user = new User();
 
     private void testPoker() {
-        myDeck.getPokersHand().add(new Poker(3, "红桃"));
-        myDeck.getPokersHand().add(new Poker(4, "黑桃"));
-        myDeck.getPokersHand().add(new Poker(5, "方块"));
+        for (int points=3; points<8; points++) {
+            for (String kind: Poker.kinds) {
+                myDeck.getPokersHand().add(new Poker(points, kind));
+            }
+        }
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
-        // 全屏、隐藏状态栏
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        // 横屏
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-
+        setContentView(R.layout.activity_main);
         GameView gameView = new GameView(this);
         testPoker();
         gameView.setMyDeck(myDeck);
         gameView.setUser(user);
         setContentView(gameView);
+        super.onCreate(savedInstanceState);
     }
 }

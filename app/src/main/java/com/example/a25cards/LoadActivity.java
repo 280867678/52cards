@@ -47,6 +47,9 @@ public class LoadActivity extends Activity {
                 case 1:
                     p++;
                     progressBar.setProgress(p);//给进度条的当前进度赋值
+                    if(p>=100){
+                        p =100;
+                    }
                     progressBar_desc.setText(p+"%");//显示当前进度为多少
                     break;
                 case 2:
@@ -62,7 +65,7 @@ public class LoadActivity extends Activity {
         @Override
         public void run() {
             super.run();
-            while(true){
+            while(p<=100){
                 try {
                     Thread.sleep(50);//使线程休眠0.1秒
                 } catch (InterruptedException e) {
