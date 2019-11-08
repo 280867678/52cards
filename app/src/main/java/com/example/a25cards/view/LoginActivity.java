@@ -14,6 +14,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.a25cards.view.GameActivity;
 import com.example.a25cards.R;
 
 public class LoginActivity extends AppCompatActivity {

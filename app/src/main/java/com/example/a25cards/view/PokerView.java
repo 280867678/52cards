@@ -35,7 +35,7 @@ public class PokerView extends View implements View.OnClickListener {
         if (isSelected ==false) {
             isSelected = true;
             Map<Integer, Integer> cardsMap = myDeck.getCardsMap();
-            int points = getPoker().getPoint();
+            int points = getPoker().getPoints();
             if (cardsMap.containsKey(points)) {
                 cardsMap.put(points, cardsMap.get(points)+1);
             } else {
@@ -44,7 +44,7 @@ public class PokerView extends View implements View.OnClickListener {
         } else {
             isSelected = false;
             Map<Integer, Integer> cardsMap = myDeck.getCardsMap();
-            int points = getPoker().getPoint();
+            int points = getPoker().getPoints();
             int num = cardsMap.get(points);
             if (num==1) {
                 cardsMap.remove(points);

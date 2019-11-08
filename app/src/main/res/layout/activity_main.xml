@@ -9,7 +9,7 @@
 
     <Button
         android:id="@+id/login"
-        android:layout_width="165dp"
+        android:layout_width="205dp"
         android:layout_height="65dp"
         android:background="@drawable/button_circle_shape_blue"
         android:text="登 录"
@@ -17,7 +17,7 @@
 
     <Button
         android:id="@+id/register"
-        android:layout_width="165dp"
+        android:layout_width="205dp"
         android:layout_height="65dp"
         android:layout_toRightOf="@+id/login"
         android:background="@drawable/button_circle_shape_green"
