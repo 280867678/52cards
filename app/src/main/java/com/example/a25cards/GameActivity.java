@@ -1,4 +1,4 @@
-package com.example.a25cards.view;
+package com.example.a25cards;
 
 import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +9,7 @@ import android.view.WindowManager;
 import com.example.a25cards.model.Deck;
 import com.example.a25cards.model.Poker;
 import com.example.a25cards.model.User;
+import com.example.a25cards.view.GameView;
 
 
 public class GameActivity extends AppCompatActivity {
@@ -30,6 +31,7 @@ public class GameActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         // 横屏
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
         GameView gameView = new GameView(this);
         testPoker();
         gameView.setMyDeck(myDeck);
