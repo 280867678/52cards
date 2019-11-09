@@ -11,20 +11,18 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="400dp"
         android:max="100"
         android:progress="0"
-        android:backgroundTint="@android:color/darker_gray"
-        android:progressBackgroundTint="@android:color/darker_gray"
-        android:progressTint="@android:color/darker_gray"
-        android:progressTintMode="@android:color/darker_gray"
-         />
+        android:layout_marginTop="310dp"
+        android:progressDrawable="@drawable/progressbar"
+        android:visibility="visible"/>
+
     <TextView
-        android:layout_width="80dp"
+        android:layout_width="50dp"
         android:id="@+id/progressBar_desc"
         android:textColor="@android:color/black"
         android:text=" "
         android:layout_toEndOf="@+id/progressBar"
-        android:textSize="20dp"
+        android:textSize="15dp"
         android:layout_height="match_parent" />
 </LinearLayout>

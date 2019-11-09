@@ -1,6 +1,7 @@
 package com.example.a25cards;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,11 +9,14 @@ import android.os.Bundle;
 import android.content.pm.ActivityInfo;
 
 
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 
 public class MenuActivity extends AppCompatActivity {
@@ -22,7 +26,7 @@ public class MenuActivity extends AppCompatActivity {
     private Button competition;
     private Button rank;
     private Button ending;
-
+    private ImageView imageView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,14 +49,26 @@ public class MenuActivity extends AppCompatActivity {
         competition = (Button)findViewById(R.id.competition);
         rank = (Button)findViewById(R.id.rank);
         ending = (Button)findViewById(R.id.ending);
-        classical.setX(1100);
-        classical.setY(190);
-        competition.setX(1500);
-        competition.setY(190);
-        rank.setX(1100);
-        rank.setY(500);
-        ending.setX(1500);
-        ending.setY(500);
+        imageView = (ImageView)findViewById(R.id.player);
+
+        Resources resources = this.getResources();;
+        DisplayMetrics dm  = resources.getDisplayMetrics();
+        float density = dm.density;
+        float screenWidth = dm.widthPixels;
+        float screenHeight = dm.heightPixels;
+        imageView.setX(0);
+        imageView.setY((float)0.2*screenHeight);
+
+        classical.setX((float)(0.7*screenWidth-130*3));
+        classical.setY((float)0.4*screenHeight-100*3);
+        competition.setX((float)0.7*screenWidth);
+        competition.setY((float)0.4*screenHeight-100*3);
+        rank.setX((float)0.7*screenWidth-130*3);
+        rank.setY((float)0.4*screenHeight);
+        ending.setX((float)0.7*screenWidth);
+        ending.setY((float)0.4*screenHeight);
+
+
         classical.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

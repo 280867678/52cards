@@ -1,12 +1,14 @@
 package com.example.a25cards;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import android.content.pm.ActivityInfo;
 
 
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -26,10 +28,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         login = (Button)findViewById(R.id.login);
         register = (Button)findViewById(R.id.register);
-        register.setX(125);
-        register.setY(775);
-        login.setX(1020);
-        login.setY(775);
+        Resources resources = this.getResources();;
+        DisplayMetrics dm  = resources.getDisplayMetrics();
+        float density = dm.density;
+        float screenWidth = dm.widthPixels;
+        float screenHeight = dm.heightPixels;
+        register.setX((float) 0.03*screenWidth);
+        register.setY((float)0.73*screenHeight);
+        login.setX((float)0.54*screenWidth);
+        login.setY((float)0.73*screenHeight);
+
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
