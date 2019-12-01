@@ -1,5 +1,6 @@
 package com.example.a25cards;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.PixelFormat;
 import android.support.v7.app.AppCompatActivity;
@@ -16,7 +17,7 @@ import com.example.a25cards.view.GameView;
 public class GameActivity extends AppCompatActivity {
 
     private Deck myDeck = new Deck();
-    private User user = new User();
+    private User user;
 
     private void testPoker() {
         for (int points=3; points<=8; points++) {
@@ -34,7 +35,10 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         getWindow().setFormat(PixelFormat.TRANSLUCENT);
         GameView gameView = new GameView(this);
-        testPoker();
+        //testPoker();
+        Intent intent = getIntent();
+        String username = intent.getStringExtra("name");
+        user = new User(username," "," ");
         gameView.setMyDeck(myDeck);
         gameView.setUser(user);
         setContentView(gameView);

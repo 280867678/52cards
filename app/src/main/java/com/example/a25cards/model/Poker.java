@@ -5,7 +5,6 @@ import com.example.a25cards.ui.CardSlideThread;
 
 public class Poker {
 
-    private boolean isSelected = false;
     private int points;
     private String kind;
     public static int SMALL_JOKER = 100;
@@ -15,16 +14,17 @@ public class Poker {
     public static int KING = 13;
     public static int ACE = 14;
     public static int TWO = 16;
+    private boolean selected = false;
     public static int[] Pokers = {3, 4, 5, 6, 7, 8, 9, 10,
             JACK, QUEEN, KING, ACE, TWO, SMALL_JOKER, LARGE_JOKER};
     public static String[] kinds = {"方块", "梅花", "红桃", "黑桃"};
 
     public boolean isSelected() {
-        return isSelected;
+        return selected;
     }
 
     public void setSelected(boolean selected) {
-        isSelected = selected;
+        this.selected = selected;
     }
 
     public int getPoints() {
@@ -48,8 +48,9 @@ public class Poker {
         this.points = point;
     }
 
-    synchronized public void slide(float[]posY, int index, int direction) {
-        new CardSlideThread(posY, index, direction).start();
+    @Override
+    public String toString() {
+        return kind+"aa"+String.valueOf(points);
     }
 
 }

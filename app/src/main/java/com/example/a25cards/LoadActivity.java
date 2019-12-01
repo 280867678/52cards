@@ -32,10 +32,10 @@ public class LoadActivity extends Activity {
 
         progressBar = findViewById(R.id.progressBar);
         progressBar_desc = findViewById(R.id.progressBar_desc);
-
-        if(p == 0){
-            new myThread().start();
-        }
+        Intent mainIntent = new Intent(LoadActivity.this, MainActivity.class);
+        startActivity(mainIntent);
+        finish();
+       // new myThread().start();
     }
 
     public class MyHandler extends Handler{
@@ -54,8 +54,8 @@ public class LoadActivity extends Activity {
                     break;
                 case 2:
                     Intent mainIntent = new Intent(LoadActivity.this, MainActivity.class);
-                    LoadActivity.this.startActivity(mainIntent);
-                    LoadActivity.this.finish();
+                    startActivity(mainIntent);
+                    finish();
                     break;
             }
         }
@@ -67,17 +67,17 @@ public class LoadActivity extends Activity {
             super.run();
             while(p<=100){
                 try {
-                    Thread.sleep(50);//使线程休眠0.1秒
+                    Thread.sleep(100);//使线程休眠0.05秒
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
                 Message msg = new Message();
-                msg.what = 1;
-                if(p == 100){
+                if(p<100){
+                    msg.what = 1;
+                } else{
                     msg.what = 2;
                 }
                 myHandler.sendMessage(msg);
-                if(p==100) break;
             }
         }
 
