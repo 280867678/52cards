@@ -4,7 +4,7 @@
 
     <EditText android:id="@+id/reet_username" android:layout_height="wrap_content" android:layout_width="fill_parent" android:hint="手机号/邮箱"/>
 
-    <EditText android:id="@+id/reet_kickname" android:layout_height="wrap_content" android:layout_width="fill_parent" android:hint="昵称"  android:layout_marginBottom="10dp" android:layout_marginTop="10dp"/>
+    <EditText android:id="@+id/reet_nickname" android:layout_height="wrap_content" android:layout_width="fill_parent" android:hint="昵称"  android:layout_marginBottom="10dp" android:layout_marginTop="10dp"/>
 
     <EditText android:id="@+id/reet_password" android:layout_height="wrap_content" android:layout_width="fill_parent" android:hint="密码" android:inputType="textPassword" android:layout_marginBottom="10dp" android:layout_marginTop="10dp"/>
 

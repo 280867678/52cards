@@ -27,6 +27,7 @@ public class MenuActivity extends AppCompatActivity {
     private Button rank;
     private Button ending;
     private ImageView imageView;
+    private String username;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,11 +69,13 @@ public class MenuActivity extends AppCompatActivity {
         ending.setX((float)0.7*screenWidth);
         ending.setY((float)0.4*screenHeight);
 
-
+        Intent intent = getIntent();
+        username = intent.getStringExtra("name");
         classical.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MenuActivity.this, GameActivity.class);
+                intent.putExtra("name",username);
                 startActivity(intent);
             }
         });

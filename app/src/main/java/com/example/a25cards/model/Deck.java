@@ -16,7 +16,42 @@ public class Deck {
     private int sumCards;
     private int type;
     private int weight;
+    private float []posY = new float[35];
+    private float []posX = new float[35];
+    private float []newPosY = new float[35];
+    private float []newPosX = new float[35];
 
+    public float[] getPosY() {
+        return posY;
+    }
+
+    public void setPosY(float posY, int index) {
+        this.posY[index] = posY;
+    }
+
+    public float[] getPosX() {
+        return posX;
+    }
+
+    public void setPosX(float posX, int index) {
+        this.posX[index] = posX;
+    }
+
+    public float[] getNewPosY() {
+        return newPosY;
+    }
+
+    public void setNewPosY(float newPosY, int index) {
+        this.newPosY[index] = newPosY;
+    }
+
+    public float[] getNewPosX() {
+        return newPosX;
+    }
+
+    public void setNewPosX(float newPosX, int index) {
+        this.newPosX[index] = newPosX;
+    }
 
     public List<Poker> getPokersHand() {
         return pokersHand;
