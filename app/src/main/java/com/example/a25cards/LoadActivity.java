@@ -64,7 +64,6 @@ public class LoadActivity extends Activity {
     public class myThread extends Thread{
         @Override
         public void run() {
-            super.run();
             while(p<=100){
                 try {
                     Thread.sleep(100);//使线程休眠0.05秒

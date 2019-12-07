@@ -49,7 +49,7 @@ public class ClientThread implements Runnable {
     public void run() {
         s = new Socket();
         try {
-            s.connect(new InetSocketAddress("172.21.9.1", 30000), 5000);
+            s.connect(new InetSocketAddress("172.21.9.1", 3000), 5000);
             s.setKeepAlive(true);
             is = new DataInputStream(s.getInputStream());
             os = new DataOutputStream(s.getOutputStream());
@@ -61,7 +61,7 @@ public class ClientThread implements Runnable {
                     String content = null;
                     // 不断的读取Socket输入流的内容
                     try {
-                        while ((content = is.readUTF()) != null) {
+                        while (true) {
                             if(content.startsWith("start")){
                                 Log.i("??????","start");
                                 int myseat= Integer.parseInt(is.readUTF());
@@ -85,8 +85,6 @@ public class ClientThread implements Runnable {
                                 gameView.getMyDeck().setPokersHand(pokers);
                                 gameView.setState(GameState.DEAL_CARDS);
                                 Log.i("??????",""+gameView.getState());
-
-
                             }else if(content.startsWith("call")){
 
                                 Log.i("call",""+gameView.getState());
@@ -126,8 +124,8 @@ public class ClientThread implements Runnable {
                                 gameView.setMyTurn(true);
                             }else if(content.startsWith("newDiscard")){
                                 gameView.setLastDeck(new ArrayList<Poker>());
+                                gameView.setState(GameState.MY_DISCARD);
                                 gameView.setMyTurn(true);
-                                System.out.println(gameView.getState());
                             }
                         }
                     } catch (IOException io) {
@@ -185,10 +183,11 @@ public class ClientThread implements Runnable {
                         for(int i = 0; i < gameView.getMyDeck().getPokersSelected().size(); i++){
                             p = p.concat(gameView.getMyDeck().getPokersSelected().get(i).toString()+",");
                         }
-                        gameView.setMyTurn(false);
+                        gameView.resetStatus();
                         try {
                             os.writeUTF("discard:");
                             os.writeUTF(p);
+                            gameView.setMyTurn(false);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }

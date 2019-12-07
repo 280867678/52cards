@@ -28,6 +28,7 @@ import com.example.a25cards.util.PokerTool;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
@@ -266,17 +267,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public GameView(Context context) {
         super(context);
         this.context = context;
-        handler = new Handler() {
-
-            @Override
-            public void handleMessage(Message msg) {
-                // 如果消息来自子线程
-                if (msg.what == 0x123) {
-                    // 将读取的内容追加显示在文本框中
-
-                }
-            }
-        };
+        handler = new Handler();
         clientThread = new ClientThread(handler,this);
         // 客户端启动ClientThread线程创建网络连接、读取来自服务器的数据
         new Thread(clientThread).start();
@@ -554,18 +545,19 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         //点击出牌
         if(x>=0.7*screenWidth && x<= 0.7*screenWidth+bt_discard.getWidth()
                 && y>=0.58*screenHeight && y<=0.58*screenHeight+bt_discard.getHeight()){
-            //从手牌删除掉要出的牌
-            for(int i = myDeck.getPokersHand().size()-1; i>=0; i--){
-                if(myDeck.getPokersHand().get((i)).isSelected()){
-                    myDeck.getPokersHand().remove(i);
+            if (PokerTool.canPlayCards(lastType, lastWeight, myDeck)) {    // 出牌判定
+                //从手牌删除掉要出的牌
+                Iterator<Poker> iter = myDeck.getPokersHand().iterator();
+                while (iter.hasNext()) {
+                    Poker po = iter.next();
+                    if (po.isSelected()) {
+                        iter.remove();
+                    }
                 }
+                Message msg = new Message();
+                msg.what = 0x7777;
+                clientThread.revHandler.sendMessage(msg);
             }
-            for(int i = 0; i < myDeck.getPokersHand().size(); i++){
-
-            }
-            Message msg = new Message();
-            msg.what = 0x7777;
-            clientThread.revHandler.sendMessage(msg);
         }
 
         //点击不出
@@ -604,24 +596,29 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
     @Override
     public boolean onTouchEvent(MotionEvent event) {    // 点击事件
-        switch (event.getAction()){
-            case MotionEvent.ACTION_DOWN:
-                float x = event.getRawX();
-                float y = event.getRawY();
-                if (getState()==GameState.MY_DISCARD) {
-                    playJudge(x, y);
-                } else if (getState()==GameState.CALL_SCORE) {  //  叫地主
-                    butCallJudge(x, y);
-                }else if(getState()==GameState.READY){ //准备离开
-                    butReadyJudge(x,y);
-                }
-                break;
-            case MotionEvent.ACTION_MOVE:
-                break;
-            case MotionEvent.ACTION_UP:
-                break;
+        try{
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    float x = event.getRawX();
+                    float y = event.getRawY();
+                    if (getState() == GameState.MY_DISCARD) {
+                        playJudge(x, y);
+                    } else if (getState() == GameState.CALL_SCORE) {  //  叫地主
+                        butCallJudge(x, y);
+                    } else if (getState() == GameState.READY) { //准备离开
+                        butReadyJudge(x, y);
+                    }
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    break;
+                case MotionEvent.ACTION_UP:
+                    break;
+            }
+        }catch (Exception e) {
+
+        }finally {
+            return super.onTouchEvent(event);
         }
-        return super.onTouchEvent(event);
     }
 
     @Override
