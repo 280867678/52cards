@@ -51,7 +51,6 @@ public class Service extends Thread{
 	public void run() {
 		while(!this.isInterrupted()) {
 			try {
-				server = new ServerSocket(30000);
 				while(true){
 					if(socketList.size() < playerNum) {
 						Socket s= server.accept();
@@ -61,8 +60,8 @@ public class Service extends Thread{
 						ServiceThread st = new ServiceThread(s);
 						new Thread(st).start();
 					}
-					System.out.println(count);
-					System.out.println(isDealCards);
+				//	System.out.println(count);
+				//	System.out.println(isDealCards);
 					if(Service.count == playerNum && isDealCards == false) {
 						System.out.println("123");
 						Service.shuffle(pokers);
