@@ -11,6 +11,7 @@ import com.example.a25cards.view.GameView;
 
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 
 
@@ -36,7 +37,7 @@ public class PokerTool {
         }
 
         // 强压牌型，比较压制等级
-        if (thisDeck.getType()>=Rule.BOMB && thisDeck.getType()>lastWeight ) {
+        if (thisDeck.getType()>=Rule.BOMB && thisDeck.getType()>lastType ) {
             return true;
         }
 
@@ -67,6 +68,7 @@ public class PokerTool {
         float initX = (float) (game.getScreenWidth() / 2.0);
         float initY = (float)0.75*game.getScreenHeight();
         mid = num / 2;
+
         for (int i=0; i<num; i++) {
             if (i<=mid) {
                 deck.setNewPosX(initX-(mid-i)*spanX, i);
@@ -76,7 +78,6 @@ public class PokerTool {
             deck.setNewPosY(initY, i);
         }
     }
-
 
 
     public static void sortPoker(Deck deck) {
@@ -101,6 +102,44 @@ public class PokerTool {
                 }
             }
         });
+
+    }
+
+    public static void eraseCards(Deck deck) {
+        List<Poker> list = deck.getPokersHand();
+        for (int i = list.size()-1; i>=0; i--) {
+            if (list.get(i).isSelected()) {
+                list.remove(i);
+            }
+        }
+    }
+
+    public static void gatherCards(Deck deck) {
+        for (int i=0; i<deck.getPokersHand().size(); i++) {
+            deck.setPosX(deck.getNewPosX()[i], i);
+            deck.setPosY(deck.getNewPosY()[i], i);
+        }
+    }
+
+    public static void resetMap(Deck deck) {
+        deck.getCardsMap().clear();
+    }
+
+    public static void getPos(GameView game, Deck deck) {
+        int num = deck.getPokersHand().size();
+        int mid;
+        float spanX = (float)0.025*game.getScreenWidth();
+        float initX = (float) (game.getScreenWidth() / 2.0);
+        float initY = (float)0.3*game.getScreenHeight();
+        mid = num / 2;
+        for (int i=0; i<num; i++) {
+            if (i<=mid) {
+                deck.setPosX(initX-(mid-i)*spanX, i);
+            } else {
+                deck.setPosX(initX+(i-mid)*spanX, i);
+            }
+            deck.setPosY(initY, i);
+        }
     }
 
 

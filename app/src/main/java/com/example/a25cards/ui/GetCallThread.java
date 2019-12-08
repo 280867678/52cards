@@ -53,7 +53,7 @@ public class GetCallThread extends Thread{
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        game.setMyTurn(false);
+        game.setMyTurn(true);
         game.setState(GameState.MY_DISCARD);
     }
 }
