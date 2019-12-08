@@ -10,8 +10,10 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.PorterDuff;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -34,7 +36,7 @@ import java.util.List;
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private Context context;
     public  User user;
-    private int boss;
+    private int boss = -1;
     public ArrayList<User> users = new ArrayList<User>();
     private Deck myDeck;
     private FlushThread flushThread; //绘图线程
@@ -56,19 +58,20 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private AssetManager assetManager;
     private int screenWidth ;//屏幕宽度
 
-    public ArrayList<Poker> getLastDeck() {
-        return lastDeck;
-    }
-
-    public void setLastDeck(ArrayList<Poker> lastDeck) {
-        this.lastDeck = lastDeck;
-    }
 
     private int screenHeight;//屏幕宽度
     private final float rate = 1.65f; //图片放大比例
     public static final int TIME_IN_FRAME = 30;
-    public ArrayList<Poker> lastDeck = new ArrayList<>();
+    public Deck lastDeck = new Deck();
     private boolean myTurn = true;
+
+    public Deck getLastDeck() {
+        return lastDeck;
+    }
+
+    public void setLastDeck(Deck lastDeck) {
+        this.lastDeck = lastDeck;
+    }
 
     public Bitmap card;
     private float cardWidth;
@@ -86,6 +89,24 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     // 定义与服务器通信的子线程
     public ClientThread clientThread;
 
+
+
+
+    public int getLastType() {
+        return lastType;
+    }
+
+    public void setLastType(int lastType) {
+        this.lastType = lastType;
+    }
+
+    public int getLastWeight() {
+        return lastWeight;
+    }
+
+    public void setLastWeight(int lastWeight) {
+        this.lastWeight = lastWeight;
+    }
 
     public float getCardWidth() {
         return cardWidth;
@@ -226,6 +247,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                             game.readyDraw(canvas);
                         }else if(state == GameState.GET_CARDS){
                             game.distributionDraw(canvas);
+                        }else if(state == GameState.GAME_END){
+
                         }
                     }
                 } finally {
@@ -281,8 +304,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         screenHeight = dm.heightPixels;
         init();
     }
-
-
 
     private void baseDraw(Canvas canvas) {
         // 牌桌
@@ -411,6 +432,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
             matrix.postScale(0.5f,0.5f);
             bt_setting = Bitmap.createBitmap(bt_setting, 0, 0, bt_setting.getWidth(), bt_setting.getHeight(),matrix,true);
+            matrix.postScale(0.75f,0.75f);
+            dz =  Bitmap.createBitmap(dz, 0, 0, dz.getWidth(), dz.getHeight(),matrix,true);
             matrix.postScale(0.35f,0.35f);
             bt_back = Bitmap.createBitmap(bt_back, 0, 0, bt_back.getWidth(), bt_back.getHeight(),matrix,true);
         } catch (IOException e) {
@@ -421,7 +444,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         initX = (float) ((float) getScreenWidth()/2.0);
         initY = (float)0.75*screenHeight;
         cardWidth = (float)(pokerBack.getWidth()*1.5);
-
     }
 
 
@@ -434,13 +456,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
         //  matrix.setSkew(0, 1);
         //  Bitmap apokerBack = Bitmap.createBitmap(pokerBack, 0, 0, pokerBack.getWidth(), pokerBack.getHeight(),matrix,true);
-        canvas.drawBitmap(pokerBack, (float)0.19*screenWidth, (float)0.2*screenHeight,null);
+     //   canvas.drawBitmap(pokerBack, (float)0.19*screenWidth, (float)0.2*screenHeight,null);
 
 
         //  matrix = new Matrix();
         //  matrix.setSkew(1, 0);
         //  Bitmap bpokerBack = Bitmap.createBitmap(pokerBack, 0, 0, pokerBack.getWidth(), pokerBack.getHeight(),matrix,true);
-        canvas.drawBitmap(pokerBack, (float)0.73*screenWidth, (float)0.2*screenHeight,null);
+     //   canvas.drawBitmap(pokerBack, (float)0.73*screenWidth, (float)0.2*screenHeight,null);
 
         matrix = new Matrix();
         matrix.postScale((float)1.5, (float)1.5);
@@ -485,8 +507,25 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     private void lastDeckPaint(Canvas canvas) {
-
+        PokerTool.getPos(this, lastDeck);
+        List<Poker> pokers = lastDeck.getPokersHand();
+        Matrix matrix = new Matrix();
+        matrix = new Matrix();
+        matrix.postScale((float)1.5, (float)1.5);
+        for (int i=0; i<pokers.size(); i++) {
+            Poker poker = pokers.get(i);
+            String name = "images/" + poker.getKind() + poker.getPoints() + ".png";
+            try {
+                inputStream = assetManager.open(name);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Bitmap thisCard = BitmapFactory.decodeStream(inputStream);
+            thisCard = Bitmap.createBitmap(thisCard, 0, 0, thisCard.getWidth(),thisCard.getHeight(), matrix,true);
+            canvas.drawBitmap(thisCard, lastDeck.getPosX()[i], lastDeck.getPosY()[i],null);
+        }
     }
+
 
     private void statusChange(int index) {
         Poker poker = myDeck.getPokersHand().get(index);
@@ -520,15 +559,19 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             } else {
                 index = mid + (int) ((x-initX) / spanX);
             }
+            if (x>=initX+(num-mid)*spanX) {
+                index = num - 1;
+            }
             if (y>=myDeck.getPosY()[index]&&y<=myDeck.getPosY()[index]+card.getHeight()*1.5) {
                 statusChange(index);    // 改变选取状态
                 if (PokerTool.canPlayCards(lastType, lastWeight, myDeck)) {    // 出牌判定
 
                 }
+
                 String text = "type：" + myDeck.getType()
                         + "  weight: " + myDeck.getWeight()
                         + "  mapInf: " + myDeck.getCardsMap();
-                //Toast.makeText(context, text,Toast.LENGTH_SHORT).show();
+           //     Toast.makeText(context, text,Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -540,30 +583,43 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                     statusChange(i);
                 }
             }
+            PokerTool.resetMap(myDeck);
         }
 
         //点击出牌
         if(x>=0.7*screenWidth && x<= 0.7*screenWidth+bt_discard.getWidth()
                 && y>=0.58*screenHeight && y<=0.58*screenHeight+bt_discard.getHeight()){
             if (PokerTool.canPlayCards(lastType, lastWeight, myDeck)) {    // 出牌判定
-                //从手牌删除掉要出的牌
-                Iterator<Poker> iter = myDeck.getPokersHand().iterator();
-                while (iter.hasNext()) {
-                    Poker po = iter.next();
-                    if (po.isSelected()) {
-                        iter.remove();
+                System.out.println("lastType  lastWeight:  "+String.valueOf(lastType)+"  "+String.valueOf(lastWeight));
+                System.out.println("Type  Weight:  "+String.valueOf(getMyDeck().getType())+"  "+String.valueOf(getMyDeck().getWeight()));
+                int nn = 0;
+                for( int i = 0 ; i < getMyDeck().getPokersHand().size(); i++){
+                    if(getMyDeck().getPokersHand().get(i).isSelected()){
+                        nn++;
                     }
                 }
-                Message msg = new Message();
-                msg.what = 0x7777;
-                clientThread.revHandler.sendMessage(msg);
+                if(nn != getMyDeck().getPokersHand().size()){
+                    Message msg = new Message();
+                    msg.what = 0x7777;
+                    clientThread.revHandler.sendMessage(msg);
+                }else{
+                    Message msg = new Message();
+                    msg.what = 0x9999;
+                    clientThread.revHandler.sendMessage(msg);
+                }
             }
         }
 
         //点击不出
-        if(x>=2*screenWidth && x<= 0.2*screenWidth+bt_pass.getWidth()
+        if(x>=0.2*screenWidth && x<= 0.2*screenWidth+bt_pass.getWidth()
                 && y>=0.58*screenHeight && y<=0.58*screenHeight+bt_pass.getHeight()){
-            if(lastDeck.size()!=0){
+            if(getLastType()!=0&& getLastWeight()!=0){
+                for(int i = 0; i < myDeck.getPokersHand().size(); i++){
+                    if(myDeck.getPokersHand().get(i).isSelected()){
+                        statusChange(i);
+                    }
+                }
+                PokerTool.resetMap(myDeck);
                 Message msg = new Message();
                 msg.what = 0x8888;
                 clientThread.revHandler.sendMessage(msg);
@@ -571,49 +627,52 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         }
     }
 
+
     private void butCallJudge(float x, float y){
         if(x>=0.28*screenWidth && x<=0.28*screenWidth+bt_call.getWidth() && y>=0.58*screenHeight && y<=0.58*screenHeight+bt_call.getHeight()){
+            setMyTurn(false);
             Message msg = new Message();
             msg.what = 0x5678;
             clientThread.revHandler.sendMessage(msg);
-            setMyTurn(false);
         }else if(x>=0.55*screenWidth && x<=0.55*screenWidth+bt_nocall.getWidth() && y>=0.58*screenHeight && y<=0.58*screenHeight+bt_nocall.getHeight()){
+            setMyTurn(false);
             Message msg = new Message();
             msg.what = 0x1234;
             clientThread.revHandler.sendMessage(msg);
-            setMyTurn(false);
         }
     }
 
     private void butReadyJudge(float x, float y){
         //点击准备
         if(x >= 0.55*screenWidth && x <= 0.55*screenWidth+bt_ready.getWidth() && y >= 0.58*screenHeight && y<=0.58*screenHeight+bt_ready.getHeight()){
+            setMyTurn(false);
             Message msg = new Message();
             msg.what = 0x789;
             clientThread.revHandler.sendMessage(msg);
-            setMyTurn(false);
         }
     }
     @Override
     public boolean onTouchEvent(MotionEvent event) {    // 点击事件
         try{
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    float x = event.getRawX();
-                    float y = event.getRawY();
-                    if (getState() == GameState.MY_DISCARD) {
-                        playJudge(x, y);
-                    } else if (getState() == GameState.CALL_SCORE) {  //  叫地主
-                        butCallJudge(x, y);
-                    } else if (getState() == GameState.READY) { //准备离开
-                        butReadyJudge(x, y);
-                    }
-                    break;
-                case MotionEvent.ACTION_MOVE:
-                    break;
-                case MotionEvent.ACTION_UP:
-                    break;
-            }
+           if(isMyTurn()){
+               switch (event.getAction()) {
+                   case MotionEvent.ACTION_DOWN:
+                       float x = event.getRawX();
+                       float y = event.getRawY();
+                       if (getState() == GameState.MY_DISCARD) {
+                           playJudge(x, y);
+                       } else if (getState() == GameState.CALL_SCORE) {  //  叫地主
+                           butCallJudge(x, y);
+                       } else if (getState() == GameState.READY) { //准备离开
+                           butReadyJudge(x, y);
+                       }
+                       break;
+                   case MotionEvent.ACTION_MOVE:
+                       break;
+                   case MotionEvent.ACTION_UP:
+                       break;
+               }
+           }
         }catch (Exception e) {
 
         }finally {

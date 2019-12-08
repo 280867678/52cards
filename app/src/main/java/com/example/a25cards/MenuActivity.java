@@ -36,7 +36,7 @@ public class MenuActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         // 横屏
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        setContentView(R.layout.menu);
+          setContentView(R.layout.menu);
         out = (Button)findViewById(R.id.out);
         out.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -20,11 +20,11 @@ public class CardsDistributionThread extends Thread{
         this.deck = game.getMyDeck();
     }
 
-    private void setPos() {
+            private void setPos() {
 
-        initX = (game.getScreenWidth()-game.getCardWidth()) / 2;
-        initY = (float) (game.getScreenHeight()*0.2);
-        for (int i=0; i<25; i++) {
+                initX = (game.getScreenWidth()-game.getCardWidth()) / 2;
+                initY = (float) (game.getScreenHeight()*0.2);
+                for (int i=0; i<25; i++) {
             deck.setPosX(initX, i);
             deck.setPosY(initY, i);
             String s = "" + deck.getPosX().toString();

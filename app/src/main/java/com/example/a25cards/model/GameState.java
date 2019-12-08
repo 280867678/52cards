@@ -10,7 +10,7 @@ public class GameState {
 
     public static final int MY_DISCARD = 20; // 出牌
 
-
+    public static final int GAME_END = 30; // 结束
 
     public static final int WAIT = 0;        // 等待
 

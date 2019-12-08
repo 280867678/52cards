@@ -18,11 +18,15 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.example.a25cards.model.Deck;
 import com.example.a25cards.model.GameState;
 import com.example.a25cards.model.Poker;
 import com.example.a25cards.model.User;
 import com.example.a25cards.ui.GetCallThread;
+import com.example.a25cards.util.PokerTool;
+import com.example.a25cards.util.Rule;
 import com.example.a25cards.view.GameView;
 
 public class ClientThread implements Runnable {
@@ -44,12 +48,12 @@ public class ClientThread implements Runnable {
         this.gameView = gameView;
     }
 
-
+    public static boolean win = false;
     @Override
     public void run() {
         s = new Socket();
         try {
-            s.connect(new InetSocketAddress("172.21.9.1", 3000), 5000);
+            s.connect(new InetSocketAddress("172.20.10.3", 3000), 5000);
             s.setKeepAlive(true);
             is = new DataInputStream(s.getInputStream());
             os = new DataOutputStream(s.getOutputStream());
@@ -62,11 +66,11 @@ public class ClientThread implements Runnable {
                     // 不断的读取Socket输入流的内容
                     try {
                         while (true) {
+                            content = is.readUTF();
                             if(content.startsWith("start")){
-                                Log.i("??????","start");
                                 int myseat= Integer.parseInt(is.readUTF());
                                 gameView.setMyseat(myseat);
-                                for(int j = 0; j < 1; j++){
+                                for(int j = 0; j < 3; j++){
                                     seatnum[j] = Integer.parseInt(is.readUTF());
                                     if (seatnum[j] > myseat) {
                                         users.add(new User(gameView.user.getUsername(),"",""));
@@ -84,10 +88,8 @@ public class ClientThread implements Runnable {
                                 }
                                 gameView.getMyDeck().setPokersHand(pokers);
                                 gameView.setState(GameState.DEAL_CARDS);
-                                Log.i("??????",""+gameView.getState());
                             }else if(content.startsWith("call")){
 
-                                Log.i("call",""+gameView.getState());
                                 gameView.setMyTurn(true);
                                 gameView.setState(GameState.CALL_SCORE);
 
@@ -104,7 +106,6 @@ public class ClientThread implements Runnable {
                                         Poker pok = new Poker(Integer.parseInt(temp[1]),temp[0]);
                                         pok.setSelected(true);
                                         pokers.add(pok);
-                                        Log.i("?", ""+pokers.size());
                                     }
                                     gameView.setState(GameState.GET_CARDS);
                                     new GetCallThread(gameView).start();
@@ -112,20 +113,58 @@ public class ClientThread implements Runnable {
                                     gameView.setMyTurn(false);
                                     gameView.setState(GameState.MY_DISCARD);
                                 }
-                            }else if(content.startsWith("discard")){
+                            }else if(content.equals("discard")){
+
                                 String po = is.readUTF();
+                                System.out.println("discard");
+                                System.out.println("pokers: "+po);
                                 String poker[] = po.split(",");
-                                ArrayList<Poker> lastDeck = gameView.getLastDeck();
+                                Deck _lastDeck = new Deck();
                                 for(int j = 0; j < poker.length; j++){
                                     String temp[] = poker[j].split("aa");
-                                    Poker pok = new Poker(Integer.parseInt(temp[1]),temp[0]);
-                                    lastDeck.add(pok);
+                                    _lastDeck.getPokersHand().add(new Poker(Integer.parseInt(temp[1]), temp[0]));
+                                    PokerTool.addToMap(_lastDeck.getCardsMap(), Integer.parseInt(temp[1]));
                                 }
+                                _lastDeck.setSumCards(_lastDeck.getPokersHand().size());
+                                Rule.judgeType(_lastDeck);
+                                gameView.setLastType(_lastDeck.getType());
+                                gameView.setLastWeight(_lastDeck.getWeight());
+                                gameView.setLastDeck(_lastDeck);
                                 gameView.setMyTurn(true);
-                            }else if(content.startsWith("newDiscard")){
-                                gameView.setLastDeck(new ArrayList<Poker>());
+                            }else if(content.equals("newDiscard")){
+                                System.out.println("newDiscard");
+
+                                gameView.setLastDeck(new Deck());
                                 gameView.setState(GameState.MY_DISCARD);
+                                gameView.setLastType(0);
+                                gameView.setLastWeight(0);
                                 gameView.setMyTurn(true);
+                            }else if(content.equals("winner")){
+                                int winner = Integer.parseInt(is.readUTF());
+                                if (gameView.getMyseat()==winner){
+                                    win = true;
+                                }
+                                gameView.setState(GameState.GAME_END);
+                            }else if(content.equals("lastDiscard")){
+                                String po = is.readUTF();
+                                if(po.equals("clear")){
+                                    gameView.setLastDeck(new Deck());
+                                    gameView.setLastType(0);
+                                    gameView.setLastWeight(0);
+                                }else{
+                                    String poker[] = po.split(",");
+                                    Deck _lastDeck = new Deck();
+                                    for(int j = 0; j < poker.length; j++){
+                                        String temp[] = poker[j].split("aa");
+                                        _lastDeck.getPokersHand().add(new Poker(Integer.parseInt(temp[1]), temp[0]));
+                                        PokerTool.addToMap(_lastDeck.getCardsMap(), Integer.parseInt(temp[1]));
+                                    }
+                                    _lastDeck.setSumCards(_lastDeck.getPokersHand().size());
+                                    Rule.judgeType(_lastDeck);
+                                    gameView.setLastType(_lastDeck.getType());
+                                    gameView.setLastWeight(_lastDeck.getWeight());
+                                    gameView.setLastDeck(_lastDeck);
+                                }
                             }
                         }
                     } catch (IOException io) {
@@ -156,7 +195,6 @@ public class ClientThread implements Runnable {
                             os.writeUTF(gameView.getUser().getPwd());
                             os.writeUTF(gameView.getUser().getNickname());
                             os.writeUTF("ready");
-
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -179,15 +217,24 @@ public class ClientThread implements Runnable {
                             e.printStackTrace();
                         }
                     }else if(msg.what == 0x7777){
+                        System.out.println("fuck");
                         String p = "";
-                        for(int i = 0; i < gameView.getMyDeck().getPokersSelected().size(); i++){
-                            p = p.concat(gameView.getMyDeck().getPokersSelected().get(i).toString()+",");
+                        for(int i = 0; i < gameView.getMyDeck().getPokersHand().size(); i++){
+                            if(gameView.getMyDeck().getPokersHand().get(i).isSelected()){
+                                p = p.concat(gameView.getMyDeck().getPokersHand().get(i).toString()+",");
+                            }
                         }
+                        System.out.println("0x7777 pokers:  "+p);
+                        PokerTool.eraseCards(gameView.getMyDeck());
+                        PokerTool.getNewPos(gameView);
+                        PokerTool.gatherCards(gameView.getMyDeck());
+                        PokerTool.resetMap(gameView.getMyDeck());
+                        gameView.getMyDeck().setSumCards(0);
                         gameView.resetStatus();
                         try {
+                            gameView.setMyTurn(false);
                             os.writeUTF("discard:");
                             os.writeUTF(p);
-                            gameView.setMyTurn(false);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -195,6 +242,12 @@ public class ClientThread implements Runnable {
                         gameView.setMyTurn(false);
                         try {
                             os.writeUTF("pass:");
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }else if(msg.what == 0x9999){
+                        try {
+                            os.writeUTF("win");
                         } catch (IOException e) {
                             e.printStackTrace();
                         }

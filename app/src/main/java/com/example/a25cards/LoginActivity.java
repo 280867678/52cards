@@ -73,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         Looper.prepare();
-                        String path = "http://172.21.9.1:8080/25Cards/Login?username="+username+"&password="+password;
+                        String path = "http://172.20.10.3:8080/25Cards/Login?username="+username+"&password="+password;
                         try {
                             URL url = new URL(path);
                             URLEncoder.encode(username, "UTF-8");
