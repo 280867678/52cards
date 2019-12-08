@@ -20,11 +20,12 @@ public class ServiceThread implements Runnable {
 	// 该线程所处理的Socket所对应的输入输出流
 	DataInputStream is = null;
 	DataOutputStream os = null;
-	public static String myDiscard="";
+	public String myDiscard="123";
 	public String username = null,password = null,nickname = null;
-	public int seatnum = 0;
+	public int seatnum = -1;
 	private boolean isReady = false; //游戏准备标志
-	public static String isCall = "abc";
+	public String isCall = "abc";
+	public boolean win = false;
 	public ServiceThread(Socket socket) {
 		this.socket = socket;
 		try {
@@ -85,15 +86,22 @@ public class ServiceThread implements Runnable {
 					}
 					//不出
 					if(s.startsWith("pass")) {
-						Service.isDiscard = true;
+						System.out.println("pass pass");
 						myDiscard = "pass";
+						Service.isDiscard = true;
 					}
 					//出牌
 					if(s.startsWith("discard")) {
-						Service.isDiscard = true;
 						String p = is.readUTF();
 						Service.discard = p;
 						myDiscard = p;
+						System.out.println("Thread myDiscard: "+myDiscard);
+						Service.isDiscard = true;
+					}
+					
+					if(s.startsWith("win")) {
+						Service.gameEnd = true;
+						win = true;
 					}
 				} catch (IOException e) {
 					e.printStackTrace();

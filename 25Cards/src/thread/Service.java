@@ -27,15 +27,16 @@ public class Service extends Thread{
 	public int noCallNum = -1;
 	public int discardNum = -1;
 	public ServiceThread discardService;
-	public boolean gameEnd = false;
+	public static boolean gameEnd = false;
 	public static boolean cardSend = false;
 	public static boolean firstCall = false;
 	public static ServiceThread firstCallService;
+	public static int winner = -1;
 	
 	public static boolean isDiscard = false; //是否出牌
 	public static String discard =""; //出牌
 	
-	public int playerNum = 2; //游戏人数
+	public int playerNum = 4; //游戏人数
 	
 	public Service(Service service) {
 		try {
@@ -60,10 +61,8 @@ public class Service extends Thread{
 						ServiceThread st = new ServiceThread(s);
 						new Thread(st).start();
 					}
-				//	System.out.println(count);
-				//	System.out.println(isDealCards);
+					System.out.print("");
 					if(Service.count == playerNum && isDealCards == false) {
-						System.out.println("123");
 						Service.shuffle(pokers);
 						for(int i = 0; i < playerNum; i++) {
 							ServiceThread temps = playerList.get(i);
@@ -78,7 +77,6 @@ public class Service extends Thread{
 							}
 						}
 						int j = 0;
-						System.out.println("abc");
 						for(int i = 0; i < playerNum; i++) {
 							ServiceThread stt = Service.playerList.get(i);
 							//st.os.writeUTF(String.valueOf(i+1));
@@ -89,7 +87,6 @@ public class Service extends Thread{
 							}
 							j+=25;
 							stt.os.writeUTF(cards);
-							System.out.println(cards);
 						}
 						isDealCards = true;
 						Random rand = new Random();
@@ -114,7 +111,7 @@ public class Service extends Thread{
 						}else {
 							continue;
 						}
-						if( weight == 1 || noCallNum == 1 ) {
+						if( weight == 3 || noCallNum == 3 ) {
 							for(int k = 0; k < playerNum; k++) {
 								ServiceThread temps = playerList.get(k);
 								temps.os.writeUTF("boss:");
@@ -140,24 +137,58 @@ public class Service extends Thread{
 					
 					if(!gameEnd && isCallBoss) {
 						if(isDiscard) {
+							System.out.println("D"+discardNum);
 							if(playerList.get(discardNum).myDiscard.equals("pass")) {
+								
 								discardNum = (discardNum+1)%playerNum;
+								System.out.println();
+								for(int j = 0; j < playerNum; j++) {
+									System.out.println("myDiscard:  "+String.valueOf(playerList.get(j).seatnum)+"    "+playerList.get(j).myDiscard);
+								}
 								if(discard.equals(playerList.get(discardNum).myDiscard)){
-									playerList.get(discardNum).os.writeUTF("newdiscard");
+									System.out.println("newDiscard");
+									playerList.get(discardNum).os.writeUTF("newDiscard");
 									for(int i = 0; i < playerNum; i++) {
 										playerList.get(i).myDiscard="";
 										discard = "";
+									}
+									for(int i = 0; i < playerNum; i++) {
+										if(i!=discardNum) {
+											playerList.get(i).os.writeUTF("lastDiscard");
+											playerList.get(i).os.writeUTF("clear");
+										}
 									}
 								}else {
 									playerList.get(discardNum).os.writeUTF("discard");
 									playerList.get(discardNum).os.writeUTF(discard);
 								}
 							}else {
+								System.out.println("discard:  "+playerList.get(discardNum).myDiscard);
 								discardNum = (discardNum+1)%playerNum;
 								playerList.get(discardNum).os.writeUTF("discard");
 								playerList.get(discardNum).os.writeUTF(discard);
+								for(int j = 0; j < playerNum; j++) {
+									if(playerList.get(j).seatnum != discardNum) {
+										playerList.get(j).os.writeUTF("lastDiscard");
+										playerList.get(j).os.writeUTF(discard);
+									}
+								}
 							}
 							isDiscard = false;
+						}
+					}
+					if(gameEnd) {
+						for(int j = 0; j < playerNum; j++) {
+							if(playerList.get(j).win == true) {
+								winner = j;
+								break;
+							}
+						}
+						for(int j = 0; j < playerNum; j++) {
+							if(j != winner) {
+								playerList.get(j).os.writeUTF("winner");
+								playerList.get(j).os.writeUTF(String.valueOf(winner));
+							}
 						}
 					}
 				}

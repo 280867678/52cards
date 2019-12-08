@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>welcome</title>
 </head>
-<body>
+<body> 
 
 <form action="Register" method="post">
 <br>
